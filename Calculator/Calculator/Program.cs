@@ -36,22 +36,36 @@ namespace Calculator
              */
 
             //Nacitani a definovani jednotlivych hodnot
-            Console.Write("Zapiste prvni cislo prikladu: ");
-            float number1 = float.Parse(Console.ReadLine());
+            float number1;
+            float number2;
+            float result;
 
-            Console.Write("Zapiste znaménko z moznych znamenek (+,-,/,*): ");
+            //definovani 1. hodnoty
+            while (true)
+            {
+                Console.Write("Zadejte prvni cislo prokladu: ");
+                if (float.TryParse(Console.ReadLine(), out number1))
+                    break;
+                Console.WriteLine("Nevalidni input. Zadejte cislo znovu.");
+            }
+
+            //definovani typu operace
+            Console.Write("Zapiste znamenko z moznych znamenek (+,-,/,*,^,√): ");
             string operationType = Console.ReadLine();
 
-            Console.Write("Zapiste druhe cislo prikladu: ");
-            float number2 = float.Parse(Console.ReadLine());
-
-            float result;
+            //definovani druhe hodnoty
+            while (true)
+            {
+                Console.Write("Zapiste druhe cislo prikladu: ");
+                if (float.TryParse(Console.ReadLine(), out number2))
+                    break;
+                Console.WriteLine("Nevalidni input. Zadejte cislo znovu.");
+            }
 
             //Jednotlive operace podle podnimek pomoci funkce else if
             if (operationType == "+")
             {
                 result =number1 + number2;
-                //vyskedek operace
                 Console.WriteLine("Vysledek: " + number1 + "+" + number2 + "=" + result.ToString("F"));
             }
             else if (operationType == "-")
@@ -64,14 +78,26 @@ namespace Calculator
                 result = number1/number2;
                 Console.WriteLine("Vysledek: " + number1 + "/" + number2 + "=" + result.ToString("F"));
             }
-            if (operationType == "*")
+            else if (operationType == "*")
             {
                 result = number1*number2;
                 Console.WriteLine("Vysledek: " + number1 + "*" + number2 + "=" + result.ToString("F"));
             }
-            //poznamka pro me lol, pridat mocniny a odmocniny, preorganizovat? not sure, treba dodat zaokrouhleni vysledku pokud je desetiny,
-            //DEJ TO PRYC Z MAINU UKAMENUJE TE 
+            else if (operationType == "^") 
+            {
+                Console.WriteLine(number1 + "^" +number2 + "=" + Math.Pow(number1, number2));
+            }
+            else if  (operationType == "√")
+            { 
+                Console.WriteLine("Vysledek: " + "√" + number1 + "=" + Math.Pow(number1, 1/number2));
+            
+            }
+            else
+            {
+                Console.WriteLine("nevalidní operace");
+            }
 
+            Console.WriteLine("Zmacknete libovolnou klavesu k ukonceni programu.");
             Console.ReadKey(); //Toto nech jako posledni radek, aby se program neukoncil ihned, ale cekal na stisk klavesy od uzivatele.
         }
     }
