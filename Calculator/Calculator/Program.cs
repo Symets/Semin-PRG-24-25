@@ -36,14 +36,14 @@ namespace Calculator
              */
 
             //Nacitani a definovani jednotlivych hodnot
-            Console.Write("Zapište první číslo příkladu: ");
-            float number1 = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Zapiste prvni cislo prikladu: ");
+            float number1 = float.Parse(Console.ReadLine());
 
-            Console.Write("Zapište znaménko z možńých znamének (+,-,/,*): ");
+            Console.Write("Zapiste znaménko z moznych znamenek (+,-,/,*): ");
             string operationType = Console.ReadLine();
 
-            Console.Write("Zapište druhé číslo příkladu: ");
-            float number2 = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Zapiste druhe cislo prikladu: ");
+            float number2 = float.Parse(Console.ReadLine());
 
             float result;
 
@@ -52,24 +52,25 @@ namespace Calculator
             {
                 result =number1 + number2;
                 //vyskedek operace
-                Console.WriteLine("Výsledek: " + number1 + "+" + number2 + "=" + result);
+                Console.WriteLine("Vysledek: " + number1 + "+" + number2 + "=" + result.ToString("F"));
             }
             else if (operationType == "-")
             {
                 result = number1 - number2;
-                Console.WriteLine("Výsledek: " + number1 + "-" + number2 + "=" + result);
+                Console.WriteLine("Vysledek: " + number1 + "-" + number2 + "=" + result.ToString("F"));
             }
             else if (operationType == "/")
             {
                 result = number1/number2;
-                Console.WriteLine("Výsledek: " + number1 + "/" + number2 + "=" + result.ToString("F"));
+                Console.WriteLine("Vysledek: " + number1 + "/" + number2 + "=" + result.ToString("F"));
             }
             if (operationType == "*")
             {
                 result = number1*number2;
-                Console.WriteLine("Výsledek: " + number1 + "*" + number2 + "=" + result);
+                Console.WriteLine("Vysledek: " + number1 + "*" + number2 + "=" + result.ToString("F"));
             }
-
+            //poznamka pro me lol, pridat mocniny a odmocniny, preorganizovat? not sure, treba dodat zaokrouhleni vysledku pokud je desetiny,
+            //DEJ TO PRYC Z MAINU UKAMENUJE TE 
 
             Console.ReadKey(); //Toto nech jako posledni radek, aby se program neukoncil ihned, ale cekal na stisk klavesy od uzivatele.
         }
