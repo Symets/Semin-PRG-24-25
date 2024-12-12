@@ -96,7 +96,6 @@ namespace Calculator
             {
                 Console.WriteLine("nevalidní operace");
             }
-
             Console.WriteLine("Zmacknete libovolnou klavesu k ukonceni programu.");
             Console.ReadKey(); //Toto nech jako posledni radek, aby se program neukoncil ihned, ale cekal na stisk klavesy od uzivatele.
         }
