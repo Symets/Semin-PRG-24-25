@@ -9,7 +9,7 @@ using System.Threading.Tasks; //možnáá ukradený z 2DArrayPlayground
 namespace BattleShips
 {
     //Jelikož umělá inteligence a táta <3 mi pomohli hodně se samotným syntaxem kód,tak jsem přiložila do repozitáře solution
-    //(BattleShipSolution.pdf)
+    //(BattleShipNew/BattleShipsSolution.pdf) ((už jsem to parkrát rozbila, omylem jsem dala o jednu složku navíc, ale už se na to bojím šahat ;-;))
     //Programovaní assist: AI, Táta; Visio rychlokurz: Máma; Tester(unpaid): Bratr. 
     internal class Program
     {
@@ -81,9 +81,8 @@ namespace BattleShips
                 }
                 Console.WriteLine();
             }
-
-
         }
+
         static void PlaceShipsRandom(char[,] board)
         {
             (string name, int length)[] ships =
