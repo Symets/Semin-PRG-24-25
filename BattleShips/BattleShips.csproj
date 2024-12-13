@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Include="C:\Users\Anastas\Documents\PRG\backup cuz im too stupid to use github\Program%28battleshipsbackup%29.cs" Link="Program%28battleshipsbackup%29.cs" />
+  </ItemGroup>
+
 </Project>

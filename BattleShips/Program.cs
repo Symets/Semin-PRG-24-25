@@ -1,63 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
-using System.Threading.Tasks; //pokradeny z 2Dplayground cuz idk jak zacit novy projekt, kms fr
+using System.Threading.Tasks; //možnáá ukradený z 2DArrayPlayground
 
 namespace BattleShips
 {
+    //Jelikož umělá inteligence a táta <3 mi pomohli hodně se samotným syntaxem kód,tak jsem přiložila do repozitáře solution
+    //(BattleShipSolution.pdf)
+    //Programovaní assist: AI, Táta; Visio rychlokurz: Máma; Tester(unpaid): Bratr. 
     internal class Program
     {
-
-        //todo: prekopej placeholder text
         static void Main(string[] args)
         {
             char[,] boardPlayer = new char[10, 10];
             char[,] boardVisibleComputer = new char[10, 10];
             char[,] boardComputer = new char[10, 10];
 
-            CreateBoard(boardPlayer);
-            CreateBoard(boardVisibleComputer);
-            CreateBoard(boardComputer);
+            //Vygenerování 3 tabulek
+            CreateBoard(boardPlayer); //= Player, kam si hráč pokládá lodě + záznam kde střílel počítač
+            CreateBoard(boardVisibleComputer); //= VisibleComputer, pro hráče aby viděl kde už střílel
+            CreateBoard(boardComputer); //= Computer, pro program, kam si počítač rozloží lodě, tato tabulka není defaultně vidět pro hráče
+            
             PlaceShipsRandom(boardComputer);
-            //PlaceShipsManual(boardPlayer);
-            PlaceShipsRandom(boardPlayer); //<- for cheats (pokud se pan borec nechce srat s pokladani lodicek all day)
-            DisplayBoard(boardPlayer); //, "     Player" todo: dopln jmena tabulek aby pan borec videl ci je ci tabulka v celym programu
-            //DisplayBoard(boardComputer); //, "      Computer" <- for cheats
+            PlaceShipsManual(boardPlayer);
+            //PlaceShipsRandom(boardPlayer); //Pro rychlejší testování, abys nemusel konstatně pokládat 5 lodí dokola. 
 
             bool gameOver = false;
 
             while (gameOver==false)
             {
+
                 Console.Clear();
-                DisplayBoard(boardPlayer); //, "     Player"
-                //isplayBoard(boardVisibleComputer);
-                DisplayBoard(boardComputer); //, "      Computer" <- for cheats
-                //todo: dodej povolani funkce na pokladani lodi + mozna preorganizovat main cuz dvakrat volat tu fukci asi nepotrebuju?
+                DisplayBoard(boardPlayer, "     Player");
+                //DisplayBoard(boardComputer, "     Computer(hidden)"); //Pro rychlejší testování.
+                DisplayBoard(boardVisibleComputer, "      Computer");
                 Console.WriteLine("you shoot");
                 PlayerShoot(boardComputer, boardVisibleComputer);
-
-                Console.WriteLine("computer shoot");
+                Console.WriteLine("computer shoots");
                 ComputerShoot(boardPlayer);
-
-                gameOver = CheckGameOver(boardPlayer, "...") || CheckGameOver(boardComputer, "..."); //nejako mi to nefunguje tak jak ma todo: bud fixni gameover funkci nebo asi swapni playera a pc
-
-                if (!gameOver)
+                gameOver = CheckGameOver(boardPlayer, "Computer") || CheckGameOver(boardComputer, "Player");
+                if (gameOver==false)
                 {
-                    Console.WriteLine(" enter next round");
+                    Console.WriteLine("Press enter to continue to the next round.");
                     Console.ReadLine();
                 }
-            }
 
-            //wip jak restartovat program, cestne ukradeny z napovedy todo: flakni tam od koho presne to je + rework it a lil
-            char k;//proc jsem tam dala k bro, tf was i cooking
-            do
-            {
-                Console.WriteLine("Press x to exit");
-                k = Console.ReadKey().KeyChar;
             }
-            while (k != 'x' && k != 'X');
-
 
         }
 
@@ -67,14 +58,15 @@ namespace BattleShips
             {
                 for (int col = 0; col < board.GetLength(1); col++)
                 {
-                    board[row, col] = '~';
+                    board[row, col] = '~'; 
                 }
             }
         }
-        static void DisplayBoard( char[,] board) //, string boardName
+        static void DisplayBoard( char[,] board, string boardName)
+        //pro orientaci každá tabulka se zobrazí s názvem, to platí i pro skrytou tabulku
         {
             Console.WriteLine();
-            //Console.WriteLine(boardName);
+            Console.WriteLine(boardName);
             Console.Write("   ");
             for (char col = 'A'; col < 'A' + board.GetLength(1); col++)
             {
@@ -87,7 +79,7 @@ namespace BattleShips
                 if (row + 1 < 10) Console.Write(" ");
                 for (int col = 0; col < board.GetLength(1); col++)
                 {
-                    Console.Write(board[row, col] + " " );
+                    Console.Write(board[row, col] + " ");
                 }
                 Console.WriteLine();
             }
@@ -96,14 +88,14 @@ namespace BattleShips
         }
         static void PlaceShipsRandom(char[,] board)
         {
-
-            (string name, int length)[] ships = {
-            ("Torpedoborec", 2),
-            ("Kriznik", 3), // idk jak jsou anglicky, todo: preloz a flakni tam tu ang verzi
+            (string name, int length)[] ships =
+            {
+            ("Destroyer", 2),
+            ("Cruiser", 3),
             ("Submarie", 3),
             ("Battleship", 4),
             ("Aircarrier", 5)
-        };
+            };
 
             Random rand = new Random();
 
@@ -111,24 +103,85 @@ namespace BattleShips
             {
                 bool placed = false;
 
-                while (!placed)
+                while (placed == false)
                 {
-                    int orientation = rand.Next(2);
+                    int directionRand = rand.Next(2);
                     int startRow = rand.Next(board.GetLength(0));
                     int startCol = rand.Next(board.GetLength(1));
 
 
-                    if (CanPlaceShip(board, startRow, startCol, ship.length, orientation))
+                    if (CanPlaceShip(board, startRow, startCol, ship.length, directionRand) == true )
                     {
-                        PlaceShip(board, startRow, startCol, ship.length, orientation, ship.name[0]);
+                        PlaceShip(board, startRow, startCol, ship.length, directionRand, ship.name[0]);
                         placed = true;
                     }
                 }
             }
         }
-        static bool CanPlaceShip(char[,] board, int row, int col, int length, int orientation)
+        static void PlaceShipsManual(char[,] board)
         {
-            if (orientation == 0) 
+            (string name, int length)[] ships =
+            {
+            ("Destroyer", 2),
+            ("Cruiser", 3),
+            ("Submarine", 3),
+            ("Battleship", 4),
+            ("Aircarrier", 5)
+            };
+            foreach (var ship in ships)
+            {
+                bool placed = false;
+
+                while (placed == false)
+                {
+                    Console.WriteLine("Ship name: " + ship.name + "  ship length: " + ship.length);
+                    DisplayBoard(board, "     Player");
+                    Console.Write("Enter coordinates (such as A9): ");
+                    //program automaticku převede input na velká písmena pro méně omezený input: a1 -> A1
+                    string input = Console.ReadLine().ToUpper(); 
+                    if (string.IsNullOrEmpty(input) || input.Length < 2)
+                    {
+                        Console.WriteLine("Invalid input, please try again.");
+                        continue;
+                    }
+
+                    char collumLetter = input[0];
+                    int col = collumLetter - 'A';
+                    if (!int.TryParse(input.Substring(1), out int row) || col < 0 || col >= board.GetLength(1) || row < 1 || row > board.GetLength(0))
+                    {
+                        Console.WriteLine("Invalid coordinates, please try again.");
+                        continue;
+                    }
+                    //jelikož souřadnice tabulky jsou od 0-9 tak, potřebuju aby můj input byl o 1 menší: A10 -> A9
+                    row -= 1;
+
+                    Console.Write("Direction of the ship (H = horizontal, V = vertical): ");
+                    string directionS = Console.ReadLine().ToUpper();
+                    if (directionS != "H" && directionS != "V")
+                    {
+                        Console.WriteLine("Invalid direction, please try again.");
+                        continue;
+                    }
+
+                    int direction = directionS == "H" ? 0 : 1;
+
+
+                    if (CanPlaceShip(board, row, col, ship.length, direction))
+                    {
+                        PlaceShip(board, row, col, ship.length, direction, ship.name[0]);
+                        placed = true;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Unable to place ship, please try again.");
+                    }
+                    Console.Clear();
+                }
+            }
+        }
+        static bool CanPlaceShip(char[,] board, int row, int col, int length, int direction)
+        {
+            if (direction == 0) 
             {
                 if (col + length > board.GetLength(1)) return false; 
 
@@ -149,68 +202,9 @@ namespace BattleShips
 
             return true;
         }
-        static void PlaceShipsManual(char[,] board)
+        static void PlaceShip(char[,] board, int row, int col, int length, int direction, char shipSymbol)
         {
-            (string name, int length)[] ships =
-            {
-            ("Torpedoborec", 2),
-            ("Kriznik", 3), // idk jak jsou anglicky, todo: preloz a flakni tam tu ang verzi
-            ("Submarie", 3),
-            ("Battleship", 4),
-            ("Aircarrier", 5)
-            };
-            foreach (var ship in ships)
-            {
-                bool placed = false;
-
-                while (!placed)
-                {
-                    Console.WriteLine("ship: " + ship.name + ship.length);
-                    DisplayBoard(board);
-                    Console.Write("enter coordinates: ");
-                    string input = Console.ReadLine()?.ToUpper();
-                    if (string.IsNullOrEmpty(input) || input.Length < 2)
-                    {
-                        Console.WriteLine("invalid input");
-                        continue;
-                    }
-
-                    char colLetter = input[0];
-                    int col = colLetter - 'A';
-                    if (!int.TryParse(input.Substring(1), out int row) || col < 0 || col >= board.GetLength(1) || row < 1 || row > board.GetLength(0))
-                    {
-                        Console.WriteLine("invalid coordinates");
-                        continue;
-                    }
-                    row -= 1;
-
-                    Console.Write("orientation (H = horizontal, V = vertical): ");
-                    string orientationInput = Console.ReadLine()?.ToUpper();
-                    if (orientationInput != "H" && orientationInput != "V")
-                    {
-                        Console.WriteLine("invalid orientation");
-                        continue;
-                    }
-
-                    int orientation = orientationInput == "H" ? 0 : 1;
-
-                    // Check if the ship can be placed
-                    if (CanPlaceShip(board, row, col, ship.length, orientation))
-                    {
-                        PlaceShip(board, row, col, ship.length, orientation, ship.name[0]);
-                        placed = true;
-                    }
-                    else
-                    {
-                        Console.WriteLine("unable to place ship");
-                    }
-                    Console.Clear();
-                }
-            }
-        }
-        static void PlaceShip(char[,] board, int row, int col, int length, int orientation, char shipSymbol)
-        {
-            if (orientation == 0)
+            if (direction == 0)
             {
                 for (int i = 0; i < length; i++)
                 {
@@ -221,75 +215,75 @@ namespace BattleShips
             {
                 for (int i = 0; i < length; i++)
                 {
-                    board[row + i, col] = shipSymbol;
+                   board[row + i, col] = shipSymbol;
                 }
             }
         }
-        static void PlayerShoot(char[,] targetBoard, char[,] visibleBoard)
+        static void PlayerShoot(char[,] boardComputer, char[,] boardVisibleComputer)
         {
             while (true)
             {
-                Console.Write("target coordinates: ");
-                string input = Console.ReadLine()?.ToUpper();
+                Console.Write("Target coordinates: ");
+                string input = Console.ReadLine().ToUpper();
 
                 if (string.IsNullOrEmpty(input) || input.Length < 2)
                 {
-                    Console.WriteLine("invalid input");
+                    Console.WriteLine("Invalid input, please try again.");
                     continue;
                 }
 
                 char colLetter = input[0];
                 int col = colLetter - 'A';
-                if (!int.TryParse(input.Substring(1), out int row) || col < 0 || col >= targetBoard.GetLength(1) || row < 1 || row > targetBoard.GetLength(0))
+                if (!int.TryParse(input.Substring(1), out int row) || col < 0 || col >= boardComputer.GetLength(1) || row < 1 || row > boardComputer.GetLength(0))
                 {
-                    Console.WriteLine("invalid coordinates");
+                    Console.WriteLine("Invalid coordinates, please try again.");
                     continue;
                 }
-
+                //Jelikož souřadnice samotné tabulku jsou od 0-9 tak je potřeba převest input hráče na odpovídajicí hodnotu. (A10 -> A9)
                 row -= 1;
 
-                if (visibleBoard[row, col] == 'X' || visibleBoard[row, col] == 'O')
+                if (boardVisibleComputer[row, col] == 'X' || boardVisibleComputer[row, col] == 'O')
                 {
-                    Console.WriteLine("already shot here");
+                    Console.WriteLine("You lready shot here, please try somewhere else.");
                     continue;
                 }
 
-                if (targetBoard[row, col] != '~')
+                if (boardComputer[row, col] != '~')
                 {
-                    Console.WriteLine("hit");
-                    targetBoard[row, col] = 'X';
-                    visibleBoard[row, col] = 'X';
+                    Console.WriteLine("Hit");
+                    boardComputer[row, col] = 'X';
+                    boardVisibleComputer[row, col] = 'X';
                 }
                 else 
                 {
-                    Console.WriteLine("midd");
-                    targetBoard[row, col] = 'O';
-                    visibleBoard[row, col] = 'O';
+                    Console.WriteLine("Miss");
+                    boardComputer[row, col] = 'O';
+                    boardVisibleComputer[row, col] = 'O';
                 }
                 break;
             }
         }
-        static void ComputerShoot(char[,] playerBoard)
+        static void ComputerShoot(char[,] boardPlayer)
         {
             Random random = new Random();
             while (true)
             {
-                int row = random.Next(playerBoard.GetLength(0));
-                int col = random.Next(playerBoard.GetLength(1));
+                int row = random.Next(boardPlayer.GetLength(0));
+                int col = random.Next(boardPlayer.GetLength(1));
 
-                if (playerBoard[row, col] == 'X' || playerBoard[row, col] == 'O')
+                if (boardPlayer[row, col] == 'X' || boardPlayer[row, col] == 'O')
                 {
                     continue;
                 }
-                if (playerBoard[row, col] != '~')
+                if (boardPlayer[row, col] != '~')
                 {
                     Console.WriteLine(" hit " + Convert.ToChar('A' + col) + (row + 1));
-                    playerBoard[row, col] = 'X';
+                    boardPlayer[row, col] = 'X';
                 }
                 else
                 {
                     Console.WriteLine(" miss " + Convert.ToChar('A' + col) + (row + 1));
-                    playerBoard[row, col] = 'O';
+                    boardPlayer[row, col] = 'O';
                 }
                 break;
             }
@@ -307,7 +301,7 @@ namespace BattleShips
                 }
             }
 
-            Console.WriteLine("gameover, " + playerName + " won"); 
+            Console.WriteLine("Gameover, " + playerName + " won!"); 
             return true;
         }
     }
