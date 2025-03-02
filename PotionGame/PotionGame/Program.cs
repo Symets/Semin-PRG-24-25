@@ -10,8 +10,8 @@ namespace PotionGame
     internal class Program
     {
         //diagram/solution is located in DesignDocument/PotionGameSolution.pdf
-        //character doodles are located in --- (if its not there, i died in the process and didn't manage to upload anything
-       
+        //character doodles are located in DesignDocument/potionGameCharacters.png
+
         static void Main(string[] args)
         {
             //definding classes
