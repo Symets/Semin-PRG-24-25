@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35327.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PotionGame", "PotionGame.csproj", "{80F3137A-B89F-44BA-856C-318899739D0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80F3137A-B89F-44BA-856C-318899739D0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80F3137A-B89F-44BA-856C-318899739D0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80F3137A-B89F-44BA-856C-318899739D0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80F3137A-B89F-44BA-856C-318899739D0D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ECB73882-28E5-492A-BF97-C658B7BC59F9}
+	EndGlobalSection
+EndGlobal
