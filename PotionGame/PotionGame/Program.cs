@@ -19,24 +19,24 @@ namespace PotionGame
 
             BrewingPot brewingPot = new BrewingPot();
 
-            Customer customer1 = new Customer("Nurse Joy", new Potion("Medicine for a kid", new List<string> { "1,3", "1,1,3", "1,1,1,3", "1,1,3,3", "2,5", "2,2,5", "2,2,2,5", "1,1,2,5", "1,2,5", "1,2,2,5" }), "Hi there. I need some medicine for a kid, so could you make it so it's nice and tasty? Thank you.");
-            Customer customer2 = new Customer("Kyle", new Potion("To become a furry", new List<string> { "6,6", "6,6,6", "6,6,6,6", "1,6,6", "1,1,6,6", "1,6,6,6", "3,6,6", "3,3,6,6", "3,6,6,6", "6,6,7", "6,6,7,7", "6,6,6,7" }), "Hewwo!OwO. I nwed a pwotion that cwould trun me into a wreal fuwwy!! U//w//U");
+            Customer customer1 = new Customer("Nurse Mila", new Potion("Medicine for a kid", new List<string> { "1,3", "1,1,3", "1,1,1,3", "1,1,3,3", "2,5", "2,2,5", "2,2,2,5", "1,1,2,5", "1,2,5", "1,2,2,5" }), "Hi there. I need some medicine for a kid, so could you make it so it's nice and tasty? Thank you.");
+            Customer customer2 = new Customer("Scallywag Tommy", new Potion("To become a furry", new List<string> { "6,6", "6,6,6", "6,6,6,6", "1,6,6", "1,1,6,6", "1,6,6,6", "3,6,6", "3,3,6,6", "3,6,6,6", "6,6,7", "6,6,7,7", "6,6,6,7" }), "I want to go on a BIG adventure! Can you turn me into something cool?? Like a BEAR or a WOLF!!");
             // i don't get paid for this (._.), this better be funny, please laugh
-            Customer customer3 = new Customer("Anonymous", new Potion("To kill someone", new List<string> { "1,2", "1,1,2", "1,1,1,2", "1,1,2,2", "3,5", "3,3,5", "3,3,3,5", "7,7,7,7" }), "Listen kid, i need something to kill someone with it, so make sure it isn't unnoticeable when i pour it into their drink.");
+            Customer customer3 = new Customer("Suspicious man", new Potion("To kill someone", new List<string> { "1,2", "1,1,2", "1,1,1,2", "1,1,2,2", "3,5", "3,3,5", "3,3,3,5", "7,7,7,7" }), "Listen kid, i need something to kill someone with it, so make sure it isn't unnoticeable when i pour it into their drink.");
             Customer customer4 = new Customer("Prince Charming", new Potion("To defeat a dragon", new List<string> { "4,6", "3,4,6", "3,4,6,7", "4,6,7", "2,2,8", "1,2,2,8", "2,2,2,8", "4,4,6,6", "3,3,5,8", "4,5,8", "4,4,5,8" }), "Hello, hello my dear brewer~! I am on a quest to defeat an evil dragon, but i need something to help me defeat it. (*flicks his long golden luscious hair that he seem to care about very much*)");
             Customer customer5 = new Customer("P*ssed off mother", new Potion("Reverse the furry", new List<string> { "5,6,6", "5,6,6,6", "4,4", "4,4,4", "4,4,4,4", "1,4,4", "1,1,4,4", "1,4,4,4", "2,5,6,6", "2,5,6,7" }), "I leave him unattended for day or two AND HE TURNS HIMSELF INTO A TALKING DOG WHATEVERTHING?! Can you PLEASE, do something to fix this.");
             Customer customer6 = new Customer("Student", new Potion("Intelligence boost", new List<string> { "5,7", "5,7,7", "5,7,7,7", "2,5,7", "2,5,7,7" }), "I got a test tmrw, make me smarted.");
-            Customer customer7 = new Customer("Army general", new Potion("Undefeatable army", new List<string> { "4,8", "4,4,8", "4,4,4,8", "6,6,8", "6,6,6,8", "3,4,8", "3,4,4,8", "3,3,4,8", "4,7,8", "4,4,7,8", "4,7,7,8", "3,4,7,8", "3,6,6,8", "6,6,7,8", "4,6,6,8" }), "I am going to lead my army to war. I need you to make something that would make my army undefeatable. I'll pay you well.");
+            Customer customer7 = new Customer("Three scrawny knights", new Potion("Undefeatable army", new List<string> { "4,8", "4,4,8", "4,4,4,8", "6,6,8", "6,6,6,8", "3,4,8", "3,4,4,8", "3,3,4,8", "4,7,8", "4,4,7,8", "4,7,7,8", "3,4,7,8", "3,6,6,8", "6,6,7,8", "4,6,6,8" }), "We really REALLY need your help! We are going to battle but these swords are way too heavy to swing. Can you help us please?");
             List<Customer> customers = new List<Customer> { customer1, customer2, customer3, customer4, customer5, customer6, customer7 };
 
             Ingredient ingredient1 = new Ingredient(1, "Flower petals", 10, "Neutralizes unappealing taste and odor, use equal amount as bad smelling/tasting ingredients");
             Ingredient ingredient2 = new Ingredient(2, "Frog", 10, "Poisonous, for larger creatures, higher amount is required. It also has a strong discusting smell.");
             Ingredient ingredient3 = new Ingredient(3, "Medicinal herbs", 10, "Has a healing factor, but it has a bitter taste.");
             Ingredient ingredient4 = new Ingredient(4, "Dragon's blood", 10, "Gives temporary strenght, but causes hair loss. 'The powerful are always bald.' -Sun Tzu");
-            Ingredient ingredient5 = new Ingredient(5, "Liquid mirror", 10, "Reverses effects of every ingredient, except for the fart of a little elf.");
-            Ingredient ingredient6 = new Ingredient(6, "Rosemary oil", 10, "Enchaces hair growth. Careful! In larger quantities, it turns the subject into a hairy beast!");
-            Ingredient ingredient7 = new Ingredient(7, "Poppy", 10, "Increases bravery, but it has a negative effect on subject's intelligence. Careful!! If consumed in extreme quantities, the subject will die due to overdose!");
-            Ingredient ingredient8 = new Ingredient(8, "Fart of a little elf", 10, "Transforms the potion from a liquid to gas. It is useful for remote aplication or affecting more than one subject at once.");
+            Ingredient ingredient5 = new Ingredient(5, "Liquid mirror", 10, "Reverses effects of every ingredient, EXCEPT for the fart of a little elf.");
+            Ingredient ingredient6 = new Ingredient(6, "Rosemary oil", 10, "Enchaces hair growth. CAREFUL!! In larger quantities, it turns the subject into a hairy beast!");
+            Ingredient ingredient7 = new Ingredient(7, "Poppy", 10, "INCREASES bravery, but it has a NEGATIVE effect on subject's intelligence. CAREFUL!! If consumed in extreme quantities, the subject will die due to overdose!");
+            Ingredient ingredient8 = new Ingredient(8, "Fart of a little elf", 10, "Transforms the potion from a liquid to gas. It is useful for remote aplication or affecting MORE THAT ONE SUBJECT AT ONCE.");
             List<Ingredient> ingredientList = new List<Ingredient> { ingredient1, ingredient2, ingredient3, ingredient4, ingredient5, ingredient6, ingredient7, ingredient8 };
 
             int dayCounter = 1;
